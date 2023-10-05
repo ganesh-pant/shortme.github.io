@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Short Me!!</title>
+    <style>
+        *{
+            padding: 0px 0px;
+            margin: 0px 0px;
+        }
+
+        .main{
+            position: relative;
+            background-color: rgb(213, 225, 228);
+            height: 300px;
+            width: 500px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,50%);
+            border: 1px solid rgb(2, 2, 2);
+            border-radius: 3px;
+        }
+
+        #longurl{
+            position: relative;
+            top: 40%;
+            left: 10%;
+            height: 40px;
+            width: 296px;
+            border: 1px solid black;
+            border-radius: 6px;
+            padding-left: 10px;
+            padding-right: 20px;
+            font-size: large;
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        #shorten{
+            position: relative;
+            top: 37%;
+            left: 12%;
+            height: 40px;
+            width: 80px;
+            border: 1px solid black;
+            border-radius: 10px;
+            font-size: large;
+            font-family: monospace;
+            color: rgb(8, 7, 7);
+            background-color: rgb(245, 239, 245);
+        }
+
+        #shorten:hover{
+            background-color: #dde4e7;
+        }
+
+        #shorturl{
+            position: relative;
+            top: 45%;
+            left: 10%;
+            height: 40px;
+            width: 270px;
+            border: 1px solid black;
+            border-radius: 6px;
+            padding-left: 10px;
+            padding-right: 47px;
+            font-size: large;
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        #copy{
+            position: relative;
+            top: 45%;
+            left: 13%;
+            height: 35px;
+            width: 45px;
+            border: 1px solid black;
+            border-radius: 6px;
+            color: rgb(7, 7, 7);
+            background-color: rgb(236, 231, 236);
+        }
+
+        #copy:hover{
+            background-color: #dde4e7;
+        }
+
+        .main p{
+            position: relative;
+            top: 30%;
+            left: 13%;
+            height: 30px;
+            width: 200px;
+            font-size: 30px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="main">
+        <p>URL Shortener</p>
+        <input type="text" placeholder="Paste long URL" id="longurl">
+        <button id="shorten">Short Me!!</button><br>
+        <input type="text" placeholder="Short URL" id="shorturl">
+        <button id="copy">
+            <span class="">Copy</span>
+        </button>
+    </div>
+    <script>
+        let newURL = document.getElementById("shorturl");
+        let coptButton = document.getElementById("copy");
+        coptButton.onclick = ()=>{
+            newURL.select();
+            window.navigator.clipboard.writeText(newURL.value);
+        }
+
+        let btn = document.getElementById("shorten");
+        btn.addEventListener('click', short);
+        async function short(){
+            let longURL = document.getElementById("longurl").value;
+            let shortURL = document.getElementById("shorturl");
+
+            const result = await fetch(`https://api.shrtco.de/v2/shorten?url=${longURL}`);
+            const data = await result.json();
+
+            shortURL.value = data.result.short_link2;
+        }
+    </script>
+</body>
+</html>
